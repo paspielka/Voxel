@@ -26,7 +26,7 @@ impl Render {
         let fragment_shader = include_str!("shaders/fragment_shader.glsl");
         let vertex_shader = include_str!("shaders/vertex_shader.glsl");
 
-        let shape = Shape::new_plane();
+        let shape = Shape::new_cube();
         let mut t = 0f32;
 
         let display = Display::new(
