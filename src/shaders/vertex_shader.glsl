@@ -6,5 +6,5 @@ uniform mat4 p_matrix;
 in vec3 position;
 
 void main() {
-    gl_Position = r_matrix * p_matrix * vec4(position, 1.0);
+    gl_Position = p_matrix * r_matrix * vec4(position, 1.0);
 }
