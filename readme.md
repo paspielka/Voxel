@@ -1,6 +1,11 @@
 # Voxel test
 Simple test for learning rust/opengl
 
+<div>
+  <img width="300", height:"200", src="screenshots/sc_1.png", alt ="showcase"/>
+  <img width="302", height:"200", src="screenshots/sc_2.png", alt ="showcase"/>
+</div>
+
 ## Table of contents
 * [General info](#general-info)
 * [Stats](#stats)
