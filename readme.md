@@ -2,8 +2,8 @@
 Simple test for learning rust/opengl
 
 <div>
-  <img width="350", height:"200", src="screenshots/sc_1.png", alt ="showcase"/>
-  <img width="350", height:"200", src="screenshots/sc_2.png", alt ="showcase"/>
+  <img width="215", height:"215", src="screenshots/sc_1.png", alt ="showcase"/>
+  <img width="200", height:"200", src="screenshots/sc_2.png", alt ="showcase"/>
 </div>
 
 ## Table of contents
