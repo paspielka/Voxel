@@ -1,82 +1,94 @@
+use itertools::{iproduct, Itertools};
 use glium::implement_vertex;
+use rand::Rng;
 
 pub struct Shape {
 
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Vertex {
     position: [f32; 3]
 }
 implement_vertex!(Vertex, position);
 
 impl Shape {
-    pub fn new_cube() -> Vec<Vertex> {
+    pub fn new_cube(pos: [f32; 3]) -> Vec<Vertex> {
 
         let vertices: [Vertex; 36] = [
             // front
-            Vertex { position: [ 0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5, 0.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5, 0.0], pos) },
 
-            Vertex { position: [ 0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5, 0.0] },
-            Vertex { position: [ 0.5, 0.5, 0.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5, 0.5, 0.0], pos) },
 
             // back
-            Vertex { position: [ 0.5,-0.5,-1.0] },
-            Vertex { position: [-0.5,-0.5,-1.0] },
-            Vertex { position: [-0.5, 0.5,-1.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([-0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5,-1.0], pos) },
 
-            Vertex { position: [ 0.5,-0.5,-1.0] },
-            Vertex { position: [-0.5, 0.5,-1.0] },
-            Vertex { position: [ 0.5, 0.5,-1.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5, 0.5,-1.0], pos) },
 
             // right
-            Vertex { position: [ 0.5,-0.5,-1.0] },
-            Vertex { position: [ 0.5,-0.5, 0.0] },
-            Vertex { position: [ 0.5, 0.5, 0.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5, 0.5, 0.0], pos) },
 
-            Vertex { position: [ 0.5,-0.5,-1.0] },
-            Vertex { position: [ 0.5, 0.5, 0.0] },
-            Vertex { position: [ 0.5, 0.5,-1.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5, 0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5, 0.5,-1.0], pos) },
 
             // left
-            Vertex { position: [-0.5,-0.5,-1.0] },
-            Vertex { position: [-0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5, 0.0] },
+            Vertex { position: Self::add_pos([-0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([-0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5, 0.0], pos) },
 
-            Vertex { position: [-0.5,-0.5,-1.0] },
-            Vertex { position: [-0.5, 0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5,-1.0] },
-
-            // bottom
-            Vertex { position: [ 0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5,-0.5,-1.0] },
-
-            Vertex { position: [ 0.5,-0.5, 0.0] },
-            Vertex { position: [-0.5,-0.5,-1.0] },
-            Vertex { position: [ 0.5,-0.5,-1.0] },
+            Vertex { position: Self::add_pos([-0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5,-1.0], pos) },
 
             // bottom
-            Vertex { position: [ 0.5, 0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5,-1.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5,-0.5,-1.0], pos) },
 
-            Vertex { position: [ 0.5, 0.5, 0.0] },
-            Vertex { position: [-0.5, 0.5,-1.0] },
-            Vertex { position: [ 0.5, 0.5,-1.0] },
+            Vertex { position: Self::add_pos([ 0.5,-0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5,-0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5,-0.5,-1.0], pos) },
+
+            // bottom
+            Vertex { position: Self::add_pos([ 0.5, 0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5,-1.0], pos) },
+
+            Vertex { position: Self::add_pos([ 0.5, 0.5, 0.0], pos) },
+            Vertex { position: Self::add_pos([-0.5, 0.5,-1.0], pos) },
+            Vertex { position: Self::add_pos([ 0.5, 0.5,-1.0], pos) },
         ];
         vertices.to_vec()
     }
 
-    pub fn new_terrain() {
-        for y in 0..10 {
-            for y in 0..10 {
+    pub fn new_shape() -> Vec<Vertex> {
+        let mut shape: Vec<Vertex> = vec![];
 
+        for (x, y, z) in iproduct!(0..=10, 0..=10, 0..=10) {
+            let mut rng = rand::thread_rng();
+            let mut num = rng.gen_range(0..=3);
+
+            if num != 3 {
+                continue;
+            }
+
+            for v in Self::new_cube([x as f32, y as f32, z as f32]) {
+                shape.push(v);
             }
         }
+        shape
     }
 
     pub fn add_pos(a: [f32; 3], b: [f32; 3]) -> [f32; 3] {

@@ -28,7 +28,7 @@ impl Camera {
         );
 
         let view_matrix = Mat4::from_translation(
-            Vec3::new(0.0, 0.0, -2.0)
+            Vec3::new(0.0, -5.0, -20.0)
         );
 
         let matrix = projection_matrix * view_matrix;

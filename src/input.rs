@@ -7,10 +7,10 @@ pub struct InputHandler {
 
 impl InputHandler {
     pub fn handle_key(input: KeyboardInput) {
-        println!("{:?}", input.virtual_keycode);
+        // wip
     }
 
     pub fn handle_mouse(position: PhysicalPosition<f64>) {
-        println!("{:?}", position)
+        // wip
     }
 }

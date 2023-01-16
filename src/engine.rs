@@ -1,4 +1,4 @@
-use glium::{Display, Program, Surface, uniform, VertexBuffer};
+use glium::{Depth, DepthTest, Display, DrawParameters, Program, Surface, uniform, VertexBuffer};
 use glium::glutin::ContextBuilder;
 use winit::event::{Event, WindowEvent};
 use winit::event_loop::{ControlFlow, EventLoop};
@@ -26,7 +26,7 @@ impl Render {
         let fragment_shader = include_str!("shaders/fragment_shader.glsl");
         let vertex_shader = include_str!("shaders/vertex_shader.glsl");
 
-        let shape = Shape::new_cube();
+        let shape = Shape::new_shape();
         let mut t = 0f32;
 
         let display = Display::new(
@@ -53,9 +53,18 @@ impl Render {
             glium::index::PrimitiveType::TrianglesList
         );
 
+        let params = DrawParameters {
+            depth: Depth {
+                test: DepthTest::IfLess,
+                write: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
         event_loop.run(move |event, _, control_flow| {
             let mut target = display.draw();
-            t += 0.0002;
+            t += 0.0005;
 
             match event {
                 Event::WindowEvent {
@@ -84,9 +93,9 @@ impl Render {
                 &program,
                 &uniform! {
                     r_matrix: Camera::r_matrix(t),
-                    p_matrix: Camera::p_matrix(90.0, &display)
+                    p_matrix: Camera::p_matrix(90.0, &display),
                 },
-                &Default::default()
+                &params
             ).unwrap();
 
             target.finish().unwrap();
